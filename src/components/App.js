@@ -4,24 +4,64 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import FeaturedMix from './FeaturedMix'
 import Header from './Header'
+import Home from './Home'
 
-const Home = () => <h1>Home</h1>;
 const Archive = () => <h1>Archive</h1>;
 const About = () => <h1>About</h1>;
 
 class App extends Component {
 
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      // whether a mix is currently playing
+      playing: false,
+      // the id of the current mix
+      currentMix: '',
+    }
+  }
+
   mountAudio = async () => {
-    var widget = Mixcloud.PlayerWidget(this.player);
+    this.widget = Mixcloud.PlayerWidget(this.player);
     // here we wait for the widget to be ready before continuing
-    await widget.ready
-    await widget.play()
-    console.log(widget)
+    await this.widget.ready;
+
+    // using the mixcloud widget we can detect when our audio is paused
+    // audio has been paused, set playing state to false
+    this.widget.events.pause.on(() =>
+      this.setState({
+        playing: false
+      })
+    );
+    // audio is playing, set playing state to true
+    this.widget.events.play.on(() =>
+      this.setState({
+        playing: true
+      })
+    );
+
+    console.log(this.widget);
   }
 
   componentDidMount() {
     // when our app component mounted on the page our componentDidMount gets called, and we run our mountAudio widget
-    this.mountAudio()
+    this.mountAudio();
+  }
+
+  // we group together our methods into an action object
+  actions = {
+    togglePlay: () => {
+      // we want to togglePlay() on our widget
+      this.widget.togglePlay();
+    },
+    playMix: mixName => {
+      this.setState({
+        currentMix: mixName
+      });
+      // load a mix by it's name and start playing it immediately
+      this.widget.load(mixName, true);
+    }
   }
 
   render() {
@@ -32,7 +72,8 @@ class App extends Component {
             <FeaturedMix />
             <div className="w-50-l relative z-1">
               <Header />
-              <Route exact path="/" component={Home} />
+              {/* Here we are passing down all the state and the actions object to the Home component */}
+              <Route exact path="/" component={() => <Home {...this.state} {...this.actions} />} />
               <Route path="/archive" component={Archive} />
               <Route path="/about" component={About} />
             </div>
