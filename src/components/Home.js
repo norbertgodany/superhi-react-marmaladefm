@@ -6,8 +6,28 @@ const Home = props => (
     {/* here we loop through all of our mixes */}
     <div className="mix mb4">
       {/* Here we just pass the props straight through */}
-      <Mix name="Bonono Mix" {...props} />
+      <Mix
+        name="CLASSIC TRANCE GENERATIONS"
+        id='/house_kidd/classic-trance-generations-post-2009-classics/'
+        {...props} />
     </div>
+
+    <div className="mix mb4">
+      {/* Here we just pass the props straight through */}
+      <Mix
+        name="TECH HOUSE CLASSICS"
+        id='/house_kidd/tech-house-classics-part-1-special-edition-mix-2017/'
+        {...props} />
+    </div>
+
+    <div className="mix mb4">
+      {/* Here we just pass the props straight through */}
+      <Mix
+        name="CLASSIC FUNKY HOUSE 1996-2006"
+        id='/house_kidd/classic-funky-house-1996-2006-part-2-special-edition-mix-2017/'
+        {...props} />
+    </div>
+
   </div>
 )
 
