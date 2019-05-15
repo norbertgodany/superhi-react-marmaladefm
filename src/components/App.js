@@ -5,9 +5,10 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import FeaturedMix from './FeaturedMix'
 import Header from './Header'
 import Home from './Home'
+import Archive from './Archive'
+import About from './About'
 
-const Archive = () => <h1>Archive</h1>;
-const About = () => <h1>About</h1>;
+import mixesData from '../data/mixes'
 
 class App extends Component {
 
@@ -19,7 +20,36 @@ class App extends Component {
       playing: false,
       // the id of the current mix
       currentMix: '',
+      mixIds: mixesData,
+      mixes: [],
+      mix: null
     }
+  }
+
+  // /djcity/dj-dime/
+
+  fetchMixes = async () => {
+    const { mixIds } = this.state;
+    console.log(mixIds);
+
+    // here we loop over our mix ids and fetch each other
+    mixIds.map(async id => {
+      try {
+        const response = await fetch(
+          // we add the id to make it a dynamic segment
+          `https://api.mixcloud.com${id}`
+        );
+        // always remember await whe using fetch in an async function
+        const data = await response.json()
+        // put the mix into our state
+        this.setState((prevState, props) => ({
+          // here we add our data onto the end of all of our previous state using the spread operator
+          mixes: [...prevState.mixes, data]
+        }));
+      } catch (error) {
+        console.log(error)
+      }
+    })
   }
 
   mountAudio = async () => {
@@ -47,6 +77,7 @@ class App extends Component {
   componentDidMount() {
     // when our app component mounted on the page our componentDidMount gets called, and we run our mountAudio widget
     this.mountAudio();
+    this.fetchMixes();
   }
 
   // we group together our methods into an action object
@@ -56,6 +87,15 @@ class App extends Component {
       this.widget.togglePlay();
     },
     playMix: mixName => {
+      // if th mixname is the same as the currently playing mix
+      // we want to pause it instead
+      const { currentMix } = this.state
+      if (mixName === currentMix) {
+        // when our code sees the return statement it will stop running and exit
+        return this.widget.togglePlay();
+      }
+      // update the currentMix in our state
+      // with the mixName
       this.setState({
         currentMix: mixName
       });
@@ -65,16 +105,21 @@ class App extends Component {
   }
 
   render() {
+
+    // this makes a variable from the first mix in the array
+    // if the array is empty, we assign it a default value of an empty object {}
+    const [firstMix = {}] = this.state.mixes;
+
     return (
       <Router>
         <div>
           <div className="flex-l justify-end ">
-            <FeaturedMix />
+            <FeaturedMix {...this.state} {...this.actions} {...firstMix} id={firstMix.key} />
             <div className="w-50-l relative z-1">
               <Header />
               {/* Here we are passing down all the state and the actions object to the Home component */}
-              <Route exact path="/" component={() => <Home {...this.state} {...this.actions} />} />
-              <Route path="/archive" component={Archive} />
+              <Route exact path="/" render={() => <Home {...this.state} {...this.actions} />} />
+              <Route path="/archive" render={() => <Archive {...this.state} {...this.actions} />} />
               <Route path="/about" component={About} />
             </div>
           </div>

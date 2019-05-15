@@ -36,9 +36,9 @@ body {
 }
 
 .play-button {
-  width: 80px;
-  height: 80px;
   background-image: url('../images/play-button.svg');
+  height: 80px;
+  width: 80px;
 }
 
 .playing .play-button {
