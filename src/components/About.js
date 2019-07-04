@@ -1,15 +1,17 @@
 import React from 'react'
+import Counter from './Counter'
 
-const Stat = ({statName, statNumber, statWord}) => (
-  <div className="w-third tc pa3 ba bw2 b--light-gray" style={{marginRight: -2}}>
-    <div className="f6 birzani ttu">{statName}</div>
-    <div className="f5 b biryani-black ttu tracked">{statNumber} {statWord}</div>
+const Stat = ({ statName, statNumber, statWord }) => (
+  <div className="mb4">
+    <div className="f5 black mb0 b">{statName}</div>
+    <Counter end={statNumber} duration={3} />
+    <div className="f4 lh-1">{statWord}</div>
   </div>
 )
 
-const About = ({mixes}) => (
-  <div className="ph3 ph4-l">
-    <div className="measure center lh-copy f4 ph3">
+const About = ({ mixes }) => (
+  <div className="measure center">
+    <div className="lh-copy mb4">
       <p className="mt0">
         Marmalade.fm features the latest and greatest in grooves, beats and world music.
       </p>
@@ -18,7 +20,7 @@ const About = ({mixes}) => (
       </p>
     </div>
 
-    <div className="flex pt3 ph3 ph4-l">
+    <div className="">
       <Stat statName="Featuring..." statNumber={mixes.length} statWord="mixes" />
       {/* play_count */}
       <Stat statName="Played..." statNumber={mixes.reduce((accum, current) => accum + current.play_count, 0)} statWord="times" />
