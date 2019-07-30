@@ -1,5 +1,5 @@
 import React from "react";
-import Counter from './Counter'
+import Counter from "./Counter";
 
 const Stat = ({ statName, statNumber, statWord }) => (
   <div className="mb4">

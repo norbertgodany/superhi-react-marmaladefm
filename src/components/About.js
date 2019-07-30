@@ -2,19 +2,16 @@ import React from "react";
 import Stat from "./Stat";
 
 const About = ({ mixes }) => (
-  <div className="measure center">
-    <div className="lh-copy mb4">
+  <div className="ph3 ph4-l pad-bottom mb5">
+   <div className="measure center lh-copy">
       <p className="mt0">
         Marmalade.fm features the latest and greatest in grooves, beats and
         world music.
       </p>
-      <p>
+      <p className="mb4">
         Whether you're into hiphop, trip hop, classic jazz, fusion jazz, afro
         beat or break beat... we have you covered!
       </p>
-    </div>
-
-    <div className="">
       <Stat
         statName="Featuring..."
         statNumber={mixes.length}
