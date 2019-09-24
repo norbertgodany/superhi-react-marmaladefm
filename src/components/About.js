@@ -1,9 +1,17 @@
 import React from "react";
 import Stat from "./Stat";
+import { connect } from "react-redux";
 
-const About = ({ mixes }) => (
+import actions from "../store/actions";
+
+const About = ({ mixes, currentMix }) => (
   <div className="ph3 ph4-l pad-bottom mb5">
-   <div className="measure center lh-copy">
+    <div className="measure center lh-copy">
+      <div>
+        <button>Set the redux state</button>
+        <h1>{currentMix}</h1>
+      </div>
+
       <p className="mt0">
         Marmalade.fm features the latest and greatest in grooves, beats and
         world music.
@@ -39,4 +47,4 @@ const About = ({ mixes }) => (
   </div>
 );
 
-export default About;
+export default connect(state => state, actions)(About);
