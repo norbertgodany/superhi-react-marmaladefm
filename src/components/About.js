@@ -2,16 +2,9 @@ import React from "react";
 import Stat from "./Stat";
 import { connect } from "react-redux";
 
-import actions from "../store/actions";
-
-const About = ({ mixes, currentMix }) => (
+const About = ({ mixes }) => (
   <div className="ph3 ph4-l pad-bottom mb5">
     <div className="measure center lh-copy">
-      <div>
-        <button>Set the redux state</button>
-        <h1>{currentMix}</h1>
-      </div>
-
       <p className="mt0">
         Marmalade.fm features the latest and greatest in grooves, beats and
         world music.
@@ -47,4 +40,8 @@ const About = ({ mixes, currentMix }) => (
   </div>
 );
 
-export default connect(state => state, actions)(About);
+// here we connect our component to our redux state
+// we pass it our entire state and all of our actions
+// this is a higher order component (a wrapper component)
+// that provides our About component with all our data
+export default connect(state => state)(About);

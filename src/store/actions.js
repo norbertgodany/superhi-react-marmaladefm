@@ -1,13 +1,17 @@
-const setMix = payload => {
-  type: "SET_MIX", payload;
-};
+/* eslint-disable no-unused-expressions */
 
-const addMix = payload => {
-  type: "ADD_MIX", payload;
-};
+const playMix = payload => ({
+  type: "PLAY_MIX",
+  payload
+});
+
+const addMix = payload => ({
+  type: "ADD_MIX",
+  payload
+});
 
 // export all of our action creators
 export default {
-  setMix,
+  playMix,
   addMix
 };

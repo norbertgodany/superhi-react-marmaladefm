@@ -1,19 +1,22 @@
 const initialState = {
   mixes: [],
-  currentMix: "groovy disco bangers"
+  currentMix: "groovy disco bangers",
+  playing: false
 };
 
 function mixesApp(state = initialState, action) {
+  const { type, payload } = action;
   switch (action.type) {
-    case "SET_MIX":
+    case "PLAY_MIX":
       return {
         ...state,
-        currentMix: action.payload
+        currentMix: payload.currentMix,
+        fromMixCloud: payload.fromMixCloud
       };
     case "ADD_MIX":
       return {
         ...state,
-        mixes: [...state.mixes, action.payload]
+        mixes: [...state.mixes, { ...payload, id: payload.key }]
       };
     default:
       return state;

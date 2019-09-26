@@ -1,5 +1,6 @@
-import React from 'react';
-import Mix from './Mix'
+import React from "react";
+import Mix from "./Mix";
+import { connect } from "react-redux";
 
 const Home = ({ mixes, ...props }) => (
   <div className="flex flex-wrap justify-between mixes ph3 ph4-l mb5">
@@ -9,11 +10,10 @@ const Home = ({ mixes, ...props }) => (
       <div className="mix mb4">
         {/* Here we just pass the props straight through */}
         {/* Here we pass through and id for the mix to play with */}
-        <Mix {...props} {...mix} id={mix.key}/>
+        <Mix {...props} {...mix} />
       </div>
     ))}
-
   </div>
-)
+);
 
-export default Home;
+export default connect(state => state)(Home);
