@@ -5,29 +5,47 @@ import actions from "../store/actions";
 
 class Player extends Component {
   componentWillReceiveProps(nextProps) {
-      // if there is a new mix in the props
+
+    // when our widget is not ready, we return and ignore all the actions below
+    if (!nextProps.widgetReady) {
+      return;
+    }
+
+    // if there is a new mix in the props
     if (nextProps.currentMix !== this.props.currentMix) {
-        // start playing the mix
-        this.widget.load(nextProps.currentMix, true)
+      // start playing the mix
+      this.widget.load(nextProps.currentMix, true);
+      //if the event is not coming from mixcloud, we want to toggle the play pause on our audio
+    } else if (!nextProps.fromMixcloud) {
+      this.widget.togglePlay()
     }
   }
 
   mountAudio = async () => {
+    const { playMix, setWidgetReady } = this.props;
+
     this.widget = Mixcloud.PlayerWidget(this.player);
+
     // here we wait for the widget to be ready before continuing
     await this.widget.ready;
+
+    // here we set our widget state to be ready in redux so we can block anything
+    // from happening before its ready
+    setWidgetReady(true);
 
     // using the mixcloud widget we can detect when our audio is paused
     // audio has been paused, set playing state to false
     this.widget.events.pause.on(() =>
-      this.setState({
-        playing: false
+      playMix({
+        playing: false,
+        fromMixcloud: true
       })
     );
     // audio is playing, set playing state to true
     this.widget.events.play.on(() =>
-      this.setState({
-        playing: true
+      playMix({
+        playing: true,
+        fromMixcloud: true
       })
     );
 
