@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import PlayMix from "./PlayMix";
 import PlayButton from "./PlayButton";
 
@@ -17,4 +18,27 @@ const FeaturedMix = ({ name, pictures = {}, ...props }) => (
   </div>
 );
 
-export default FeaturedMix;
+// on the show page, we are going to set the featuredMix to be the currently visible viewed mix
+
+// if theres a mix playing we want to set that as our featured mix
+
+// we want to display our first mix as our featured mix
+
+const getMix = (state) => {
+  // here we grab the mix that has a slug that matches
+  // our params from the url
+
+  // 1. if we have a featuredMix in redux, we show that firstMix
+  // 2. if theres a currently playing mix, we show that text
+  // 3. otherwise we just show the first mix
+
+  const [featuredMix] = state.mixes.filter(mix => mix.id === state.featuredMix);
+
+  const [playingMix] = state.mixes.filter(mix => mix.id === state.currentMix)
+
+  const [firstMix = {}] = state.mixes;
+  // return the featured mix if it exists, otherwise return the first mix
+  return featuredMix || firstMix;
+};
+
+export default connect(state => ({ ...getMix(state) }))(FeaturedMix);

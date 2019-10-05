@@ -1,22 +1,23 @@
 const initialState = {
   mixes: [],
-  currentMix: "groovy disco bangers",
+  currentMix: null,
   widgetReady: false,
   playing: false,
-  fromMixcloud: false
+  fromMixcloud: false,
+  featuredMix: null
 };
 
 function mixesApp(state = initialState, action) {
   const { type, payload } = action;
-  switch (action.type) {
+  switch (type) {
     case "PLAY_MIX":
-      const {currentMix, playing} = payload
+      const { currentMix, playing } = payload;
       return {
         ...state,
-        // spread the payload rather than listing them one by one.
-        // stopping them from overwriting them
+        // spread out the payload rather than listing them out
+        // explicitly, it stops them from overwriting
         ...payload,
-        playing: currentMix === state.currentMix ? !playing: playing
+        playing: currentMix === state.currentMix ? !playing : playing
       };
     case "ADD_MIX":
       return {
@@ -27,6 +28,11 @@ function mixesApp(state = initialState, action) {
       return {
         ...state,
         widgetReady: true
+      };
+    case "SET_FEATURED_MIX":
+      return {
+        ...state,
+        featuredMix: payload
       };
     default:
       return state;

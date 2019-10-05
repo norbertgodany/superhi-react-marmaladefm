@@ -47,12 +47,7 @@ class App extends Component {
       <Router>
         <div>
           <div className="flex-l justify-end ">
-            <FeaturedMix
-              {...this.state}
-              {...this.actions}
-              {...firstMix}
-              id={firstMix.key}
-            />
+            <FeaturedMix />
             <div className="w-50-l relative z-1">
               <Header />
               {/* Here we are passing down all the state and the actions object to the Home component */}
